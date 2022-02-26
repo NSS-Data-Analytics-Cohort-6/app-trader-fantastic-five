@@ -1,29 +1,3 @@
---Pi Day apps WITH DUPES (I, P)
-SELECT DISTINCT a.name,
-	a.price AS app_price,
-	p.price::money::decimal AS play_price,
-	a.rating AS app_rating,
-	p.rating AS play_rating,
-	CAST(a.review_count AS int) AS app_reviews,
-	CAST(p.review_count AS int) AS play_reviews,
-	a.primary_genre AS app_store_genre,
-	p.genres AS play_store_genre,
-	ROUND((CAST(a.review_count AS int) + p.review_count)/(p.review_count / (CAST(REPLACE(TRIM(TRAILING '+' FROM p.install_count), ',','') AS numeric))),0) AS estimated_downloads,
-	(ROUND((a.rating+p.rating)/2*2+1,1)) AS lifespan_years,
-	(((ROUND((a.rating+p.rating)/2*2+1,0))*12)*5000) AS estimated_revenue,
-	(((ROUND((a.rating+p.rating)/2*2+1,0))*12)*1000)+10000 AS estimated_spending,
-	((((ROUND((a.rating+p.rating)/2*2+1,0))*12)*5000))
-	-(((ROUND((a.rating+p.rating)/2*2+1,0))*12)*1000)+10000 AS total_revenue
-FROM app_store_apps AS a
-JOIN play_store_apps AS p
-ON a.name = p.name
-WHERE CAST(a.review_count AS decimal) >=100
-	AND CAST(p.review_count AS decimal) >= 100
-	AND a.rating >= 3.5 AND p.rating>= 3.5
-	AND a.price =0 AND p.price::money::decimal =0
-	and a.name ilike any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%farm%','%bake%','%PAC-MAN%', '%pie%'])
-ORDER BY lifespan_years DESC;
-
 --Pi Day apps lifespan revenue (I, P, J)
 --Run the subquery ONLY (line 36-56 without brackets) to get Top 10 Apps
 SELECT app,
@@ -52,11 +26,100 @@ FROM
 		AND CAST(a.review_count AS decimal) >=100
 		AND CAST(p.review_count AS decimal) >= 100
 		AND a.rating >= 3.5 AND p.rating>= 3.5
-		AND a.name ILIKE any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%farm%','%bake%','%PAC-MAN%', '%pie%'])
-		ORDER BY lifespan_years DESC) AS subquery
+	 	AND (ROUND((a.rating+p.rating)/2*2+1,1)) >=9.5
+		 AND a.name ILIKE any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%bake%','%PAC-MAN%', '%pie%', '%food%', '%pinterest%', '%jam%'])
+		ORDER BY lifespan_years DESC
+		LIMIT 10) AS subquery
 ORDER BY ls_total_rev DESC;
 
-/*
+--Phil's top 10
+SELECT DISTINCT trim(a.name) AS app,
+	a.price AS app_price,
+	p.price::money::decimal AS game_price,
+	a.rating AS app_rating,
+	p.rating AS game_rating,
+	a.primary_genre AS app_store_genre,
+	p.genres AS play_store_genre,
+	(ROUND((a.rating+p.rating)/2*2+1,1)) AS lifespan_years,
+	(((ROUND((a.rating+p.rating)/2*2+1,0))*12)*5000) AS estimated_revenue,
+	(((ROUND((a.rating+p.rating)/2*2+1,0))*12)*1000)+10000 AS estimated_spending,
+	((((ROUND((a.rating+p.rating)/2*2+1,0))*12)*5000))
+	-(((ROUND((a.rating+p.rating)/2*2+1,0))*12)*1000)+10000 AS total_revenue
+	FROM app_store_apps AS a
+	JOIN play_store_apps AS p
+	ON a.name = p.name
+	WHERE a.price <= 1 AND p.price::money::decimal <= 1
+		AND CAST(a.review_count AS decimal) >=100
+		AND CAST(p.review_count AS decimal) >= 100
+		AND a.rating >= 3.5 AND p.rating>= 3.5
+		and (ROUND((a.rating+p.rating)/2*2+1,1))>=9.5
+		AND a.name ILIKE any(array['%farm%','%jam%','%pinterest%','%pie%','%pizza%','%egg%','%food%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%bake%','%PAC-MAN%'])
+	ORDER BY lifespan_years DESC
+	LIMIT 10;
+	
+--Iulia's query for apps over $1 limit 10
+SELECT
+	app_store_name,
+	play_store_name,
+	app_price,
+	game_price,
+	lifespan_years,
+	lifespan_months,
+	(lifespan_months*5000) as estimated_revenue,
+	(lifespan_months*1000)+10000 as estimated_spending,
+	(lifespan_months*5000) - (lifespan_months*1000)+10000 as
+	total_revenue
+FROM(select DISTINCT a.name as app_store_name,
+	p.name as play_store_name,
+	a.price as app_price,
+	p.price::money::decimal as game_price,
+	a.rating as app_rating,
+	p.rating as game_rating,
+	a.primary_genre as app_store_genre,
+	p.genres as play_store_genre,
+	round((a.rating+p.rating)/2*2+1,1) as lifespan_years,	
+	round(((a.rating+p.rating)/2*2+1)*12,1) AS lifespan_months
+	FROM app_store_apps as a
+JOIN play_store_apps as p
+ON a.name = p.name
+WHERE a.price > 1 AND p.price::money::decimal >1
+	AND CAST(a.review_count as decimal) >=100
+	AND CAST(p.review_count as decimal) >= 100
+	AND a.rating >= 3.5 AND p.rating>= 3.5
+	ORDER BY lifespan_months DESC) as subquery
+	LIMIT 10;
+	
+--Iulia's query for free apps by lifespan limit 10
+SELECT
+	app_store_name,
+	play_store_name,
+	lifespan_years,
+	lifespan_months,
+	(lifespan_months*5000) as estimated_revenue,
+	(lifespan_months*1000)+10000 as estimated_spending,
+	(lifespan_months*5000) - (lifespan_months*1000)+10000 as
+	total_revenue
+FROM
+	(select DISTINCT a.name as app_store_name,
+	p.name as play_store_name,
+	a.price as app_price,
+	p.price::money::decimal as game_price,
+	a.rating as app_rating,
+	p.rating as game_rating,
+	a.primary_genre as app_store_genre,
+	p.genres as play_store_genre,
+	round((a.rating+p.rating)/2*2+1,1) as lifespan_years,	
+	round(((a.rating+p.rating)/2*2+1)*12,1) lifespan_months
+	FROM app_store_apps as a
+	JOIN play_store_apps as p
+	ON a.name = p.name
+	WHERE a.price <= 1 AND p.price::money::decimal <= 1
+		AND CAST(a.review_count as decimal) >=100
+		AND CAST(p.review_count as decimal) >= 100
+		AND a.rating >= 3.5 AND p.rating>= 3.5
+	ORDER BY lifespan_months DESC, app_store_genre,play_store_genre) as subquery
+LIMIT 10;
+
 --Subquery to pull lifespan_total_rev because main select didn't work (J)
 SELECT app,
 	ROUND(lifespan_years * total_revenue) AS ls_total_rev
@@ -98,6 +161,7 @@ FROM app_store_apps AS a
 	USING (name)
 WHERE a.price <= 1
 	AND p.price::money::decimal <= 1
+ORDER BY play_rating DESC;
 
 --Longevity (P)
 SELECT name, a.price AS app_price,
@@ -148,4 +212,4 @@ FROM (SELECT DISTINCT app_store_genre,
 			order by lifespan_years DESC) AS freeboth) AS ranks
 WHERE genre_rank = 1
 ORDER BY total_revenue DESC
-LIMIT 10;*/
+LIMIT 10;
