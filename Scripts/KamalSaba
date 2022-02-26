@@ -1,13 +1,21 @@
-SELECT name, 
-a.price AS app_price, 
-p.price::money::decimal AS play_price, 
-a.rating AS app_rating, 
-p.rating AS play_rating, 
-a.review_count AS app_reviews, 
-p.review_count AS play_reviews, 
-p.content_rating, p.genres
-FROM App_store_apps AS a 
-	INNER JOIN play_store_apps AS p
-	USING (name)
-	WHERE a.price <= 1 AND p.price::money::decimal <= 1
-	ORDER BY app_rating DESC, play_rating DESC;
+SELECT DISTINCT a.name,
+a.price as app_price,
+p.price::money::decimal as game_price,
+a.rating as app_rating,
+p.rating as game_rating,
+a.primary_genre as app_store_genre,
+p.genres as play_store_genre,
+round((a.rating+p.rating)/2*2+1,1) lifespan_years,
+(((round((a.rating+p.rating)/2*2+1,0))*12)*5000) as estimated_revenue,
+(((round((a.rating+p.rating)/2*2+1,0))*12)*1000)+10000 as estimated_spending,
+((((round((a.rating+p.rating)/2*2+1,0))*12)*5000))
+-(((round((a.rating+p.rating)/2*2+1,0))*12)*1000)+10000 as
+total_revenue
+FROM app_store_apps as a
+INNER JOIN play_store_apps as p
+ON a.name = p.name
+WHERE a.price <= 1 AND p.price::money::decimal <= 1
+AND CAST(a.review_count as decimal) >=100
+AND CAST(p.review_count as decimal) >= 100
+AND a.rating >= 3.5 AND p.rating>= 3.5
+ORDER BY lifespan_years DESC
