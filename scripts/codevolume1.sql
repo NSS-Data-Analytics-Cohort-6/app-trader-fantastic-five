@@ -14,17 +14,20 @@ p.content_rating,
 p.genres as play_genre,
 a.primary_genre as app_genre,
 round((a.rating+p.rating)/2*2+1,0) as lifespan_years,
-(((round((a.rating+p.rating)/2*2+1,0))*12)*5000)-11000 as estimated_revenue,
+round(((a.rating+p.rating/2*2+1)*12),0) as lifespan_months,
+(((round((a.rating+p.rating)/2*2+1,0))*12)*5000)-11000 as estimated_revenue_years,
 round((cast(a.review_count as int) + p.review_count)/(p.review_count / (cast(replace(trim(trailing '+' from p.install_count), ',','') as numeric))),0) as estimated_downloads
 FROM App_store_apps AS a
 	INNER JOIN play_store_apps AS p
 	on trim(a.name) = trim(p.name)
 	WHERE a.price = p.price::money::decimal and a.price=0 and p.price::money::decimal=0
 	-- how can i get this to not be dumb looking
+	-- I solved it i am a genius (aka i used the internet)
 	and a.name ilike any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%farm%','%bake%','%PAC-MAN%'])
 AND CAST(a.review_count as decimal) >= 100
 AND CAST(p.review_count as decimal) >= 100
 AND a.rating >= 3.5 AND p.rating>= 3.5
+and round((a.rating+p.rating)/2*2+1,0)>=10
 order by lifespan_years DESC;
 
 -- take two down here
