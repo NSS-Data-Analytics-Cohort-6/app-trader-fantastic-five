@@ -1,5 +1,4 @@
 --Pi Day apps lifespan revenue (I, P, J)
---Run the subquery ONLY (line 36-56 without brackets) to get Top 10 Apps
 SELECT app,
 	ROUND(lifespan_years * total_revenue) AS ls_total_rev,
 	lifespan_years,
