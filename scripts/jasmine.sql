@@ -1,5 +1,5 @@
---Pi Day apps (I, P)
-SELECT DISTINCT TRIM(a.name) AS app,
+--Pi Day apps WITH DUPES (I, P)
+SELECT DISTINCT a.name,
 	a.price AS app_price,
 	p.price::money::decimal AS play_price,
 	a.rating AS app_rating,
@@ -16,20 +16,22 @@ SELECT DISTINCT TRIM(a.name) AS app,
 	-(((ROUND((a.rating+p.rating)/2*2+1,0))*12)*1000)+10000 AS total_revenue
 FROM app_store_apps AS a
 JOIN play_store_apps AS p
-ON TRIM(a.name) = TRIM(p.name)
+ON a.name = p.name
 WHERE CAST(a.review_count AS decimal) >=100
 	AND CAST(p.review_count AS decimal) >= 100
 	AND a.rating >= 3.5 AND p.rating>= 3.5
 	AND a.price =0 AND p.price::money::decimal =0
-	and a.name ilike any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%farm%','%bake%','%PAC-MAN%'])
+	and a.name ilike any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%farm%','%bake%','%PAC-MAN%', '%pie%'])
 ORDER BY lifespan_years DESC;
 
-/* 
 --Pi Day apps lifespan revenue (I, P, J)
+--Run the subquery ONLY (line 36-56 without brackets) to get Top 10 Apps
 SELECT app,
 	ROUND(lifespan_years * total_revenue) AS ls_total_rev,
 	lifespan_years,
-	total_revenue
+	total_revenue,
+	app_price,
+	game_price
 FROM
 	(SELECT DISTINCT a.name AS app,
 	a.price AS app_price,
@@ -50,21 +52,11 @@ FROM
 		AND CAST(a.review_count AS decimal) >=100
 		AND CAST(p.review_count AS decimal) >= 100
 		AND a.rating >= 3.5 AND p.rating>= 3.5
-		AND p.name ilike '%Pizza%'
-		or p.name ilike '%Pie%'
-		or p.name ilike '%Egg%'
-		or p.name ilike '%Fruit%'
-		or p.name ilike '%Flour%'
-		or p.name ilike '%Recipe%'
-		or p.name ilike '%Dessert'
-		or p.name ilike '%Calculat%'
-		or p.name ilike '%Cook%'
-		or p.name ilike '%Farm%'
-		or p.name ilike '%Bake%'
-		or p.name ilike '%PAC-MAN%'
+		AND a.name ILIKE any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%farm%','%bake%','%PAC-MAN%', '%pie%'])
 		ORDER BY lifespan_years DESC) AS subquery
 ORDER BY ls_total_rev DESC;
 
+/*
 --Subquery to pull lifespan_total_rev because main select didn't work (J)
 SELECT app,
 	ROUND(lifespan_years * total_revenue) AS ls_total_rev
