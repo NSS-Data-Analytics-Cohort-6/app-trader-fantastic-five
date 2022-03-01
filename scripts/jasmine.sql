@@ -66,7 +66,7 @@ SELECT
 	lifespan_months,
 	(lifespan_months*5000) as estimated_revenue,
 	(lifespan_months*1000)+10000 as estimated_spending,
-	(lifespan_months*5000) - (lifespan_months*1000)+10000 as
+	(lifespan_months*5000) - ((lifespan_months*1000)+10000) as
 	total_revenue
 FROM(select DISTINCT a.name as app_store_name,
 	p.name as play_store_name,
@@ -88,7 +88,7 @@ WHERE a.price > 1 AND p.price::money::decimal >1
 	ORDER BY lifespan_months DESC) as subquery
 	LIMIT 10;
 	
---Iulia's query for free apps by lifespan limit 10
+--Iulia's query for free apps by lifespan
 SELECT
 	app_store_name,
 	play_store_name,
@@ -96,7 +96,7 @@ SELECT
 	lifespan_months,
 	(lifespan_months*5000) as estimated_revenue,
 	(lifespan_months*1000)+10000 as estimated_spending,
-	(lifespan_months*5000) - (lifespan_months*1000)+10000 as
+	(lifespan_months*5000) - ((lifespan_months*1000)+10000) as
 	total_revenue
 FROM
 	(select DISTINCT a.name as app_store_name,
@@ -116,8 +116,8 @@ FROM
 		AND CAST(a.review_count as decimal) >=100
 		AND CAST(p.review_count as decimal) >= 100
 		AND a.rating >= 3.5 AND p.rating>= 3.5
-	ORDER BY lifespan_months DESC, app_store_genre,play_store_genre) as subquery
-LIMIT 10;
+	 ORDER BY lifespan_months DESC, app_store_genre,play_store_genre) as subquery
+LIMIT 100;
 
 --Subquery to pull lifespan_total_rev because main select didn't work (J)
 SELECT app,
