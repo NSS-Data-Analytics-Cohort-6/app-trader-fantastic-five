@@ -21,9 +21,6 @@ FROM App_store_apps AS a
 	INNER JOIN play_store_apps AS p
 	on trim(a.name) = trim(p.name)
 	WHERE a.price = p.price::money::decimal and a.price=0 and p.price::money::decimal=0
-	-- how can i get this to not be dumb looking
-	-- I solved it i am a genius (aka i used the internet)
-	and a.name ilike any(array['%farm%','%pizza%','%egg%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%farm%','%bake%','%PAC-MAN%'])
 AND CAST(a.review_count as decimal) >= 100
 AND CAST(p.review_count as decimal) >= 100
 AND a.rating >= 3.5 AND p.rating>= 3.5
@@ -131,7 +128,12 @@ SELECT
 app_store_name,
 play_store_name,
 lifespan_years,
-lifespan_months,
+app_rating,
+game_rating,
+play_rating,
+app_reviews,
+play_reviews,
+estimated_downloads,
 (lifespan_months*5000) as estimated_revenue,
 (lifespan_months*1000)+10000 as estimated_spending,
 (lifespan_months*5000) - (lifespan_months*1000)+10000 as
@@ -143,11 +145,15 @@ p.name as play_store_name,
 a.price as app_price,
 p.price::money::decimal as game_price,
 a.rating as app_rating,
-p.rating as game_rating,
+round(round(p.rating/5,1)*5,1) as game_rating,
+a.review_count as app_reviews,
+p.review_count as play_reviews,
+p.rating as play_rating,
 a.primary_genre as app_store_genre,
 p.genres as play_store_genre,
-round((a.rating+p.rating)/2*2+1,1) as lifespan_years,	
-round(((a.rating+p.rating)/2*2+1)*12,1) lifespan_months
+round((cast(a.review_count as int) + p.review_count)/(p.review_count / (cast(replace(trim(trailing '+' from p.install_count), ',','') as numeric))),0) as estimated_downloads,
+CAST(round((a.rating+p.rating)/2*2+1,1) AS int) AS lifespan_years,	
+CAST(round((a.rating+p.rating)/2*2+1,1) AS int) * 12 AS lifespan_months
 from app_store_apps as a
 JOIN play_store_apps as p
 ON a.name = p.name
@@ -155,8 +161,8 @@ WHERE a.price <= 1 AND p.price::money::decimal <= 1
 AND CAST(a.review_count as decimal) >=100
 AND CAST(p.review_count as decimal) >= 100
 AND a.rating >= 3.5 AND p.rating>= 3.5
-ORDER BY lifespan_months DESC, app_store_genre,play_store_genre) as subquery
-LIMIT 10;
+ORDER BY lifespan_years DESC, app_store_genre,play_store_genre) as subquery
+LIMIT 1000;
 
 --Iulia's code that has the top free apps x2
 
@@ -181,7 +187,7 @@ a.rating as app_rating,
 p.rating as game_rating,
 a.primary_genre as app_store_genre,
 p.genres as play_store_genre,
-round((a.rating+p.rating)/2*2+1,1) as lifespan_years,	
+round((a.rating+p.rating)/2*2+1,1) as lifespan_years,
 round(((a.rating+p.rating)/2*2+1)*12,1) lifespan_months
 from app_store_apps as a
 JOIN play_store_apps as p
