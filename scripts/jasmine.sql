@@ -52,7 +52,6 @@ SELECT DISTINCT trim(a.name) AS app,
 		AND CAST(p.review_count AS decimal) >= 100
 		AND a.rating >= 3.5 AND p.rating>= 3.5
 		and (ROUND((a.rating+p.rating)/2*2+1,1))>=9.5
-		AND a.name ILIKE any(array['%farm%','%jam%','%pinterest%','%pie%','%pizza%','%egg%','%food%','%fruit%','%flour%','%recipe%','%dessert%','%cook%','%bake%','%PAC-MAN%'])
 	ORDER BY lifespan_years DESC
 	LIMIT 10;
 	
@@ -76,8 +75,8 @@ FROM(select DISTINCT a.name as app_store_name,
 	p.rating as game_rating,
 	a.primary_genre as app_store_genre,
 	p.genres as play_store_genre,
-	round((a.rating+p.rating)/2*2+1,1) as lifespan_years,	
-	round(((a.rating+p.rating)/2*2+1)*12,1) AS lifespan_months
+	CAST(round((a.rating+p.rating)/2*2+1,1) AS int) AS lifespan_years,	
+	CAST(round((a.rating+p.rating)/2*2+1,1) AS int) * 12 AS lifespan_months
 	FROM app_store_apps as a
 JOIN play_store_apps as p
 ON a.name = p.name
@@ -86,7 +85,6 @@ WHERE a.price > 1 AND p.price::money::decimal >1
 	AND CAST(p.review_count as decimal) >= 100
 	AND a.rating >= 3.5 AND p.rating>= 3.5
 	ORDER BY lifespan_months DESC) as subquery
-	LIMIT 10;
 	
 --Iulia's query for free apps by lifespan
 SELECT
@@ -94,10 +92,9 @@ SELECT
 	play_store_name,
 	lifespan_years,
 	lifespan_months,
-	(lifespan_months*5000) as estimated_revenue,
-	(lifespan_months*1000)+10000 as estimated_spending,
-	(lifespan_months*5000) - ((lifespan_months*1000)+10000) as
-	total_revenue
+	(lifespan_months*5000) AS estimated_revenue,
+	(lifespan_months*1000)+10000 AS estimated_spending,
+	(lifespan_months*5000) - ((lifespan_months*1000)+10000) AS total_revenue
 FROM
 	(select DISTINCT a.name as app_store_name,
 	p.name as play_store_name,
@@ -107,17 +104,17 @@ FROM
 	p.rating as game_rating,
 	a.primary_genre as app_store_genre,
 	p.genres as play_store_genre,
-	round((a.rating+p.rating)/2*2+1,1) as lifespan_years,	
-	round(((a.rating+p.rating)/2*2+1)*12,1) lifespan_months
+	CAST(round((a.rating+p.rating)/2*2+1,1) AS int) AS lifespan_years,	
+	CAST(round((a.rating+p.rating)/2*2+1,1) AS int) * 12 AS lifespan_months
 	FROM app_store_apps as a
 	JOIN play_store_apps as p
 	ON a.name = p.name
 	WHERE a.price <= 1 AND p.price::money::decimal <= 1
 		AND CAST(a.review_count as decimal) >=100
-		AND CAST(p.review_count as decimal) >= 100
+		AND CAST(p.review_count as decimal) >=100
 		AND a.rating >= 3.5 AND p.rating>= 3.5
 	 ORDER BY lifespan_months DESC, app_store_genre,play_store_genre) as subquery
-LIMIT 100;
+LIMIT 10;
 
 --Subquery to pull lifespan_total_rev because main select didn't work (J)
 SELECT app,
