@@ -1,0 +1,122 @@
+"app_store_genre","name","genre_rank","total_revenue","arate","avg_genre_rating"
+"Business","Indeed Job Search",1,442000,4.0,3.375
+"Business","ADP Mobile Solutions",2,442000,4.0,3.375
+"Business","Uber Driver",3,394000,3.0,3.375
+"Business","AirWatch Agent",4,346000,2.5,3.375
+"Education","Star Chart",1,490000,4.5,3.875
+"Education","ClassDojo",2,490000,4.5,3.875
+"Education","Google Classroom",3,442000,4.0,3.875
+"Education","PBS KIDS Video",4,442000,3.5,3.875
+"Education","PlayKids - Educational Cartoons and Games for Kids",5,442000,4.0,3.875
+"Education","TED",6,442000,3.5,3.875
+"Education","Edmodo",7,442000,3.5,3.875
+"Education","Kids A-Z",8,442000,3.5,3.875
+"Entertainment","Talking Ginger 2",1,490000,4.5,4.250
+"Entertainment","WWE",2,490000,4.0,4.250
+"Entertainment","The CW",3,490000,4.5,4.250
+"Entertainment","Regal Cinemas",4,490000,4.5,4.250
+"Entertainment","YouTube Kids",5,490000,4.5,4.250
+"Entertainment","Fandango Movies - Times + Tickets",6,490000,4.0,4.250
+"Entertainment","Xbox",7,490000,4.5,4.250
+"Entertainment","Dubsmash",8,490000,4.5,4.250
+"Entertainment","STARZ",9,442000,3.5,4.250
+"Entertainment","Tom's Love Letters",10,442000,4.0,4.250
+"Finance","USAA Mobile",1,490000,4.0,3.500
+"Finance","Chase Mobile",2,490000,4.5,3.500
+"Finance","Amex Mobile",3,442000,4.0,3.500
+"Finance","Citi Mobile®",4,442000,3.5,3.500
+"Finance","Wells Fargo Mobile",5,394000,3.0,3.500
+"Finance","U by BB&T",6,346000,2.0,3.500
+"Food & Drink","Domino's Pizza USA",1,538000,5.0,3.750
+"Food & Drink","Starbucks",2,490000,4.5,3.750
+"Food & Drink","DoorDash - Food Delivery",3,490000,4.5,3.750
+"Food & Drink","Allrecipes Dinner Spinner",4,442000,3.5,3.750
+"Food & Drink","SONIC Drive-In",5,442000,4.0,3.750
+"Food & Drink","Chick-fil-A",6,442000,3.5,3.750
+"Food & Drink","Whataburger",7,442000,3.0,3.750
+"Food & Drink","McDonald's",8,346000,2.0,3.750
+"Games","Egg, Inc.",1,538000,5.0,4.650
+"Games","PewDiePie's Tuber Simulator",2,538000,5.0,4.650
+"Games","Geometry Dash Lite",3,538000,5.0,4.650
+"Games","Bad Piggies HD",4,490000,4.5,4.650
+"Games","Bejeweled Classic",5,490000,4.5,4.650
+"Games","Call of Duty®: Heroes",6,490000,4.5,4.650
+"Games","Candy Crush Saga",7,490000,4.5,4.650
+"Games","Candy Crush Soda Saga",8,490000,4.5,4.650
+"Games","Deer Hunter Classic",9,490000,4.5,4.650
+"Games","Design Home",10,490000,4.5,4.650
+"Health & Fitness","Seven - 7 Minute Workout Training Challenge",1,490000,4.5,4.250
+"Health & Fitness","Fitbit",2,442000,4.0,4.250
+"Lifestyle","Tinder",1,442000,3.5,2.375
+"Lifestyle","T-Mobile Tuesdays",2,394000,2.5,2.375
+"Lifestyle","myChevrolet",3,346000,2.0,2.375
+"Lifestyle","Philips Hue",4,298000,1.5,2.375
+"Navigation","Geocaching®",1,442000,3.5,3.500
+"News","The Guardian",1,538000,5.0,3.833
+"News","The Washington Post Classic",2,490000,4.5,3.833
+"News","NBC News",3,442000,3.5,3.833
+"News","USA TODAY",4,442000,3.5,3.833
+"News","Twitter",5,442000,3.5,3.833
+"News","Sky News",6,394000,3.0,3.833
+"Photo & Video","Photo Editor-",1,490000,4.5,3.900
+"Photo & Video","Afterlight",2,490000,4.5,3.900
+"Photo & Video","Photo Editor by Aviary",3,490000,4.5,3.900
+"Photo & Video","PicsArt Photo Studio: Collage Maker & Pic Editor",4,490000,4.5,3.900
+"Photo & Video","Instagram",5,490000,4.5,3.900
+"Photo & Video","Snapseed",6,490000,4.0,3.900
+"Photo & Video","Boomerang from Instagram",7,442000,3.5,3.900
+"Photo & Video","VSCO",8,442000,3.5,3.900
+"Photo & Video","Snapchat",9,394000,2.5,3.900
+"Photo & Video","Epson iPrint",10,394000,3.0,3.900
+"Productivity","Google Sheets",1,490000,4.5,4.450
+"Productivity","Google Docs",2,490000,4.5,4.450
+"Productivity","Microsoft PowerPoint",3,490000,4.0,4.450
+"Productivity","Microsoft Excel",4,490000,4.5,4.450
+"Productivity","Microsoft Word",5,490000,4.5,4.450
+"Productivity","Microsoft OneNote",6,490000,4.5,4.450
+"Productivity","Trello",7,490000,4.5,4.450
+"Productivity","Adobe Illustrator Draw",8,490000,4.5,4.450
+"Productivity","Verizon Cloud",9,490000,4.5,4.450
+"Productivity","GMX Mail",10,490000,4.5,4.450
+"Reference","Bible",1,490000,4.5,4.000
+"Reference","Google Translate",2,442000,3.5,4.000
+"Shopping","ASOS",1,538000,5.0,4.000
+"Shopping","Fuel Rewards® program",2,490000,4.5,4.000
+"Shopping","ZARA",3,490000,4.5,4.000
+"Shopping","Wish - Shopping Made Fun",4,490000,4.5,4.000
+"Shopping","Best Buy",5,442000,4.0,4.000
+"Shopping","H&M",6,394000,3.0,4.000
+"Shopping","My College Bookstore",7,346000,2.5,4.000
+"Social Networking","WhatsApp Messenger",1,490000,4.5,4.200
+"Social Networking","Discord - Chat for Gamers",2,490000,4.5,4.200
+"Social Networking","Pinterest",3,490000,4.5,4.200
+"Social Networking","Wishbone - Compare Anything",4,490000,4.5,4.200
+"Social Networking","WeChat",5,490000,4.5,4.200
+"Social Networking","GroupMe",6,490000,4.5,4.200
+"Social Networking","Tumblr",7,442000,4.0,4.200
+"Social Networking","Kik",8,442000,4.0,4.200
+"Social Networking","Facebook",9,442000,3.5,4.200
+"Social Networking","Timehop",10,442000,3.5,4.200
+"Sports","Bleacher Report: Sports news, scores, & highlights",1,490000,4.5,3.350
+"Sports","NBA",2,442000,3.5,3.350
+"Sports","Univision Deportes: Liga MX, MLS, Fútbol En Vivo",3,442000,3.5,3.350
+"Sports","NHL",4,442000,3.5,3.350
+"Sports","NASCAR MOBILE",5,442000,4.0,3.350
+"Sports","WatchESPN",6,442000,4.0,3.350
+"Sports","Premier League - Official App",7,442000,3.5,3.350
+"Sports","NFL",8,394000,2.5,3.350
+"Sports","NBC Sports",9,346000,2.5,3.350
+"Sports","NCAA Sports",10,346000,2.0,3.350
+"Travel","Google Street View",1,442000,4.0,3.313
+"Travel","Airbnb",2,442000,4.0,3.313
+"Travel","DB Navigator",3,442000,3.5,3.313
+"Travel","Google Earth",4,442000,3.5,3.313
+"Travel","Fly Delta",5,394000,3.0,3.313
+"Travel","Southwest Airlines",6,394000,3.0,3.313
+"Travel","Uber",7,394000,3.0,3.313
+"Travel","United Airlines",8,346000,2.5,3.313
+"Utilities","Firefox Focus: The privacy browser",1,442000,4.0,3.625
+"Utilities","Puffin Web Browser",2,442000,4.0,3.625
+"Utilities","Speedtest by Ookla",3,442000,3.5,3.625
+"Utilities","myAT&T",4,394000,3.0,3.625
+"Weather","Yahoo Weather",1,490000,4.5,4.500
