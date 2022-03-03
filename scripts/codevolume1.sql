@@ -128,6 +128,8 @@ SELECT
 app_store_name,
 play_store_name,
 lifespan_years,
+app_price,
+game_price,
 app_rating,
 game_rating,
 play_rating,
@@ -152,13 +154,12 @@ p.rating as play_rating,
 a.primary_genre as app_store_genre,
 p.genres as play_store_genre,
 round((cast(a.review_count as int) + p.review_count)/(p.review_count / (cast(replace(trim(trailing '+' from p.install_count), ',','') as numeric))),0) as estimated_downloads,
-CAST(round((a.rating+p.rating)/2*2+1,1) AS int) AS lifespan_years,	
+CAST(round((a.rating+p.rating)/2*2+1,0) AS int) AS lifespan_years,	
 CAST(round((a.rating+p.rating)/2*2+1,1) AS int) * 12 AS lifespan_months
 from app_store_apps as a
 JOIN play_store_apps as p
 ON a.name = p.name
-WHERE a.price <= 1 AND p.price::money::decimal <= 1
-AND CAST(a.review_count as decimal) >=100
+WHERE CAST(a.review_count as decimal) >=100
 AND CAST(p.review_count as decimal) >= 100
 AND a.rating >= 3.5 AND p.rating>= 3.5
 ORDER BY lifespan_years DESC, app_store_genre,play_store_genre) as subquery
